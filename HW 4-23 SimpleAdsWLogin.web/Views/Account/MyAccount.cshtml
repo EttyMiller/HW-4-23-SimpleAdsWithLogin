@@ -1,0 +1,40 @@
+﻿@using HW_4_23_SimpleAdsWLogin.data
+@model MyAccountViewModel;
+
+<h3>Your Account</h3>
+<h2>Name: @Model.Name</h2>
+<h2>Email: @User.Identity.Name</h2>
+
+@foreach(Ad ad in Model.Ads)
+{
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="bg-light p-4 rounded shadow mb-3">
+                <h5>Listed by: @ad.UserName</h5>
+                <h5>Listed on: @ad.DatePosted.ToLongDateString()</h5>
+                <h5>Phone Number: @ad.PhoneNumber</h5>
+                <h3>Details:</h3>
+                <p>@ad.Description</p>
+                @if (ad.UserEmail == User.Identity.Name)
+                {
+                    <form method="post" action="/home/deletead">
+                        <input type="hidden" name="id" value=@ad.Id />
+                        <button class="btn btn-danger">Delete</button>
+                    </form>
+                }
+            </div>
+        </div>
+    </div>
+}
+@if(Model.Ads.Count == 0)
+{
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="bg-light p-4 rounded shadow mb-3">
+                <br />
+                <span class="text-lg-center text-black-50" >No Ads Under Your Account</span>
+                <br />
+            </div>
+        </div>
+    </div>
+}
